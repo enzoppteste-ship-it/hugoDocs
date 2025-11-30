@@ -1,121 +1,692 @@
----
-title: Host on Netlify
-description: Host your site on Netlify.
-categories: []
-keywords: []
-aliases: [/hosting-and-deployment/hosting-on-netlify/]
----
 
-Use these instructions to enable continuous deployment from a GitHub repository. The same general steps apply if you are using Azure DevOps, Bitbucket, or GitLab for version control.
+[index.html](https://github.com/user-attachments/files/23838845/index.html)
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a200a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="AUXILIO OURO">
+    <title>AUXILIO OURO</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.png">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            touch-action: manipulation;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #2ecc71;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overscroll-behavior-y: contain;
+        }
 
-## Prerequisites
+        /* Neural Network Background - Brilho aumentado */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7; /* Aumentado de 0.3 para 0.7 */
+        }
+        
+        /* Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            background-image: url('icon-512x512.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 120px;
+            z-index: 1002;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Main Menu Container */
+        .panel {
+            width: 100%;
+            max-width: 320px;
+            border: 2px solid #0a200a;
+            border-radius: 4px;
+            background-color: rgba(5, 15, 5, 0.85);
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(20, 80, 20, 0.5);
+            margin: 10px;
+        }
+        
+        /* Header */
+        .panel-header {
+            padding: 12px;
+            background-color: rgba(10, 30, 10, 0.8);
+            border-bottom: 1px solid #0a200a;
+            text-align: center;
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #2ecc71;
+            letter-spacing: 1px;
+        }
+        
+        /* Content Area */
+        .panel-content {
+            display: flex;
+            min-height: 300px;
+        }
+        
+        /* Left Menu */
+        .side-menu {
+            width: 90px;
+            border-right: 2px solid #0a200a;
+            background-color: rgba(5, 15, 5, 0.8);
+        }
+        
+        .menu-item {
+            padding: 12px 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .menu-item i {
+            font-size: 20px;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: rgba(20, 60, 20, 0.6);
+        }
+        
+        /* Right Content */
+        .content-area {
+            flex: 1;
+            padding: 12px;
+            position: relative;
+        }
+        
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* Checkbox Items */
+        .checkbox-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-item input {
+            margin-right: 8px;
+            accent-color: #2ecc71;
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* Sliders */
+        .slider-container {
+            margin: 12px 0;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 13px;
+            color: #2ecc71;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 5px;
+            -webkit-appearance: none;
+            background: #0a200a;
+            outline: none;
+            border-radius: 2px;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #2ecc71;
+            cursor: pointer;
+        }
+        
+        .slider-value {
+            text-align: right;
+            font-size: 11px;
+            margin-top: 2px;
+            color: #2ecc71;
+        }
+        
+        /* Divider */
+        .divider {
+            height: 1px;
+            background-color: #0a200a;
+            margin: 12px 0;
+        }
+        
+        /* Info Text */
+        .info-text {
+            margin: 6px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(5, 15, 5, 0.95);
+            border: 1px solid #0a200a;
+            color: #2ecc71;
+            padding: 6px 12px;
+            border-radius: 3px;
+            font-size: 13px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        /* Login Screen - Fundo mais transparente para mostrar o brilho */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            background-color: rgba(0, 0, 0, 0.5); /* Reduzido de 0.85 para 0.5 */
+        }
+        
+        .login-box {
+            width: 100%;
+            max-width: 320px;
+            border: 2px solid #0a200a;
+            border-radius: 4px;
+            background-color: rgba(5, 15, 5, 0.85);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(20, 80, 20, 0.5);
+            margin: 10px;
+        }
+        
+        .login-title {
+            font-size: 22px;
+            margin-bottom: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #2ecc71;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            background-color: #0a200a;
+            border: 1px solid #0a200a;
+            border-radius: 3px;
+            color: #2ecc71;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 8px;
+            background-color: #0a200a;
+            color: #2ecc71;
+            border: none;
+            border-radius: 3px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .login-btn:hover {
+            background-color: #2ecc71;
+            color: #0a200a;
+        }
+        
+        /* Injetar Pastas Button */
+        .inject-btn {
+            width: 100%;
+            padding: 8px;
+            background-color: rgba(10, 30, 10, 0.8);
+            color: #2ecc71;
+            border: none;
+            border-radius: 3px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        
+        .inject-btn:hover {
+            background-color: rgba(20, 60, 20, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <!-- Neural Network Background -->
+    <canvas id="neuralCanvas" class="neural-bg"></canvas>
+    
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen"></div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+    
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-title">AUXILIO OURO</div>
+            <input type="password" class="login-input" id="keyInput" placeholder="Digite a Key">
+            <button class="login-btn" id="loginBtn">ENTRAR</button>
+        </div>
+    </div>
+    
+    <!-- Main Panel -->
+    <div class="panel" id="mainPanel" style="display: none;">
+        <div class="panel-header">AUXILIO OURO</div>
+        
+        <div class="panel-content">
+            <div class="side-menu">
+                <div class="menu-item active" data-section="aimbot">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>AIMBOT</span>
+                </div>
+                <div class="menu-item" data-section="fps">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>FPS</span>
+                </div>
+                <div class="menu-item" data-section="extra">
+                    <i class="fas fa-cogs"></i>
+                    <span>EXTRA</span>
+                </div>
+                <div class="menu-item" data-section="info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>INFO</span>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <!-- Aimbot Section -->
+                <div class="content-section active" id="aimbot">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="high-target-adjust">
+                        <label for="high-target-adjust">Alto ajuste de alvo</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="smooth-tracking">
+                        <label for="smooth-tracking">Rastreamento suave</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="aim-trick">
+                        <label for="aim-trick">Aim trick</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="aim-lock">
+                        <label for="aim-lock">Aim lock</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="enable-fov">
+                        <label for="enable-fov">ATIVAR FOV</label>
+                    </div>
+                    
+                    <div class="slider-container">
+                        <label for="fov-slider">FOV</label>
+                        <input type="range" min="0" max="100" value="0" class="slider" id="fov-slider">
+                        <div class="slider-value" id="fov-value">0%</div>
+                    </div>
+                    
+                    <div class="slider-container">
+                        <label for="pull-strength">FORÇA DA PUXADA</label>
+                        <input type="range" min="0" max="100" value="0" class="slider" id="pull-strength">
+                        <div class="slider-value" id="pull-value">0%</div>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <!-- Botão Injetar Pastas -->
+                    <button class="inject-btn" id="injectBtn">INJETAR PASTAS</button>
+                </div>
+                
+                <!-- FPS Section -->
+                <div class="content-section" id="fps">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="fps-boost">
+                        <label for="fps-boost">+120FPS</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="contrast-boost">
+                        <label for="contrast-boost">Aumentar contraste</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="fluidity-boost">
+                        <label for="fluidity-boost">Aumentar fluidez</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="screen-slide">
+                        <label for="screen-slide">Aumentar deslize</label>
+                    </div>
+                </div>
+                
+                <!-- Extra Section -->
+                <div class="content-section" id="extra">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="recoil-20">
+                        <label for="recoil-20">20% no recoil</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="recoil-90">
+                        <label for="recoil-90">90% auxilio recoil</label>
+                    </div>
+                </div>
+                
+                <!-- Info Section -->
+                <div class="content-section" id="info">
+                    <p class="info-text">Criado por @gustavoffz</p>
+                    <p class="info-text">@central hack</p>
+                    <div class="divider"></div>
+                    <p class="info-text">ouro trick</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-Please complete the following tasks before continuing:
+    <script>
+        // Configuração para PWA em tela cheia
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            document.documentElement.style.height = '100%';
+            document.body.style.height = '100%';
+        }
 
-1. [Create](https://app.netlify.com/signup) a Netlify account
-1. [Log in](https://app.netlify.com/login) to your Netlify account
-1. [Create](https://github.com/signup) a GitHub account
-1. [Log in](https://github.com/login) to your GitHub account
-1. [Create](https://github.com/new) a GitHub repository for your project
-1. [Create](https://git-scm.com/docs/git-init) a local Git repository for your project with a [remote](https://git-scm.com/docs/git-remote) reference to your GitHub repository
-1. Create a Hugo site within your local Git repository and test it with the `hugo server` command
-1. Commit the changes to your local Git repository and push to your GitHub repository.
+        // Neural Network Background Animation
+        const canvas = document.getElementById('neuralCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        
+        // Create nodes
+        const nodes = [];
+        const connections = [];
+        const nodeCount = 40;
+        
+        // Initialize nodes
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() * 4 - 2) * 1.5,
+                vy: (Math.random() * 4 - 2) * 1.5,
+                radius: Math.random() * 3 + 2
+            });
+        }
+        
+        // Create connections between nearby nodes
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const dx = nodes[i].x - nodes[j].x;
+                const dy = nodes[i].y - nodes[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 250) {
+                    connections.push({
+                        node1: nodes[i],
+                        node2: nodes[j],
+                        opacity: 1 - distance / 250
+                    });
+                }
+            }
+        }
+        
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Update nodes
+            nodes.forEach(node => {
+                node.x += node.vx;
+                node.y += node.vy;
+                
+                // Bounce off walls
+                if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+            });
+            
+            // Draw connections
+            ctx.strokeStyle = '#4afd84';
+            connections.forEach(connection => {
+                ctx.beginPath();
+                ctx.moveTo(connection.node1.x, connection.node1.y);
+                ctx.lineTo(connection.node2.x, connection.node2.y);
+                ctx.globalAlpha = connection.opacity * 0.6;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
+            
+            // Draw nodes
+            ctx.fillStyle = '#4afd84';
+            nodes.forEach(node => {
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                ctx.globalAlpha = 0.8;
+                ctx.fill();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // Handle window resize
+        window.addEventListener('resize', resizeCanvas);
 
-## Procedure
+        // Splash screen with timeout
+        const splashScreen = document.getElementById('splashScreen');
+        const loginScreen = document.getElementById('loginScreen');
+        
+        setTimeout(() => {
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                loginScreen.style.display = 'flex';
+            }, 500);
+        }, 2000); // 2 seconds splash screen
 
-<!-- Using "text" as the code block language because "toml" looks terrible. -->
+        // Show notification function
+        function showNotification(text) {
+            const notification = document.getElementById('notification');
+            notification.textContent = text;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+        
+        // Login functionality
+        const mainPanel = document.getElementById('mainPanel');
+        const keyInput = document.getElementById('keyInput');
+        const loginBtn = document.getElementById('loginBtn');
+        
+        const CORRECT_KEY = "Ouro-KEY-927303";
+        
+        loginBtn.addEventListener('click', () => {
+            if (keyInput.value === CORRECT_KEY) {
+                loginScreen.style.display = 'none';
+                mainPanel.style.display = 'block';
+            } else {
+                showNotification('Key incorreta!');
+                keyInput.value = '';
+            }
+        });
+        
+        // Allow pressing Enter to login
+        keyInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginBtn.click();
+            }
+        });
+        
+        // Tab switching functionality
+        const menuItems = document.querySelectorAll('.menu-item');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuItems.forEach(i => i.classList.remove('active'));
+                contentSections.forEach(section => section.classList.remove('active'));
+                
+                item.classList.add('active');
+                const sectionId = item.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+        
+        // Slider value display
+        const fovSlider = document.getElementById('fov-slider');
+        const fovValue = document.getElementById('fov-value');
+        const pullSlider = document.getElementById('pull-strength');
+        const pullValue = document.getElementById('pull-value');
+        
+        fovSlider.addEventListener('input', () => {
+            fovValue.textContent = `${fovSlider.value}%`;
+            if (document.getElementById('enable-fov').checked) {
+                showNotification(`FOV: ${fovSlider.value}%`);
+            }
+        });
+        
+        pullSlider.addEventListener('input', () => {
+            pullValue.textContent = `${pullSlider.value}%`;
+            showNotification(`Força: ${pullSlider.value}%`);
+        });
+        
+        // Checkbox activation notifications
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const label = document.querySelector(`label[for="${checkbox.id}"]`);
+                if (label) {
+                    const status = checkbox.checked ? 'ativado' : 'desativado';
+                    showNotification(`${label.textContent} ${status}`);
+                }
+            });
+        });
+        
+        // Injetar Pastas button functionality
+        const injectBtn = document.getElementById('injectBtn');
+        injectBtn.addEventListener('click', () => {
+            try {
+                window.location.href = 'freefire://';
+                setTimeout(() => {
+                    window.location.href = 'market://details?id=com.dts.freefireth';
+                }, 500);
+                showNotification('Injetando pastas...');
+            } catch (e) {
+                showNotification('Erro ao abrir Free Fire');
+            }
+        });
 
-Step 1
-: Create a `netlify.toml` file in the root of your project.
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful');
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
 
-  ```text {file="netlify.toml" copy=true}
-  [build.environment]
-  DART_SASS_VERSION = "1.93.2"
-  GO_VERSION = "1.25.3"
-  HUGO_VERSION = "0.152.2"
-  NODE_VERSION = "22.20.0"
-  TZ = "Europe/Oslo"
+        // Add to Home Screen prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showNotification('Toque no menu e selecione "Adicionar à tela inicial"');
+            
+            // Mostrar botão de instalação se não for PWA ainda
+            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                setTimeout(() => {
+                    if (confirm('Deseja instalar o aplicativo para melhor experiência?')) {
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then((choiceResult) => {
+                            if (choiceResult.outcome === 'accepted') {
+                                console.log('User accepted install');
+                            }
+                            deferredPrompt = null;
+                        });
+                    }
+                }, 3000);
+            }
+        });
 
-  [build]
-  publish = "public"
-  command = """\
-    git config core.quotepath false && \
-    hugo --gc --minify --baseURL "${URL}"
-    """
-  ```
+        // Evitar recarregamento quando instalado como PWA
+        window.addEventListener('appinstalled', () => {
+            console.log('App instalado com sucesso');
+        });
 
-  If your site requires Dart Sass to transpile Sass to CSS, set the `DART_SASS_VERSION` and include the Dart Sass installation in the build step.
-
-  ```text {file="netlify.toml" copy=true}
-  [build.environment]
-  DART_SASS_VERSION = "1.93.2"
-  GO_VERSION = "1.25.3"
-  HUGO_VERSION = "0.152.2"
-  NODE_VERSION = "22.20.0"
-  TZ = "Europe/Oslo"
-
-  [build]
-  publish = "public"
-  command = """\
-    curl -sLJO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
-    tar -C "${HOME}/.local" -xf "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
-    rm "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
-    export PATH="${HOME}/.local/dart-sass:${PATH}" && \
-    git config core.quotepath false && \
-    hugo --gc --minify --baseURL "${URL}"
-    """
-  ```
-
-Step 2
-: Commit the changes to your local Git repository and push to your GitHub repository.
-
-Step 3
-: In the upper right corner of the Netlify dashboard, press the **Add new project** button and select “Import an existing project".
-
-  ![screen capture](netlify-01.png)
-
-Step 4
-: Connect to GitHub.
-
-  ![screen capture](netlify-02.png)
-
-Step 5
-: Press the "Authorize Netlify" button to allow the Netlify application to access your GitHub account.
-
-  ![screen capture](netlify-03.png)
-
-Step 6
-: Press the **Configure Netlify on GitHub** button.
-  
-  ![screen capture](netlify-04.png)
-
-Step 7
-: Select the GitHub account where you want to install the Netlify application.
-
-  ![screen capture](netlify-05.png)
-
-Step 8
-: Authorize the Netlify application to access all repositories or only select repositories, then press the Install button.
-
-  ![screen capture](netlify-06.png)
-
-Your browser will be redirected to the Netlify dashboard.
-
-Step 9
-: Click on the name of the repository you wish to import.
-
-  ![screen capture](netlify-07.png)
-
-Step 10
-: On the "Review configuration" page, enter a project name, leave the settings at their default values, then press the **Deploy** button.
-
-  ![screen capture](netlify-08.png)
-
-  ![screen capture](netlify-09.png)
-
-Step 11
-: When the deployment completes, click on the link to your published site.
-
-  ![screen capture](netlify-10.png)
-
-In the future, whenever you push a change from your local Git repository, Netlify will rebuild and deploy your site.
+        // Prevenir comportamento padrão de navegador
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('gesturestart', e => e.preventDefault());
+        document.addEventListener('gesturechange', e => e.preventDefault());
+        document.addEventListener('gestureend', e => e.preventDefault());
+    </script>
+</body>
+</html>
